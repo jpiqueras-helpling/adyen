@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'adyen/version'
 
 Gem::Specification.new do |s|
-  s.name    = "adyen"
+  s.name    = "adyen_jpiqueras"
   s.version = Adyen::VERSION
 
   s.required_ruby_version = '>= 1.9.3'
