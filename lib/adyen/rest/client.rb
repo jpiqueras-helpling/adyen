@@ -7,6 +7,7 @@ require 'adyen/rest/response'
 require 'adyen/rest/authorise_payment'
 require 'adyen/rest/authorise_recurring_payment'
 require 'adyen/rest/modify_payment'
+require 'adyen/rest/payout'
 
 module Adyen
   module REST
@@ -19,6 +20,7 @@ module Adyen
     class Client
       include AuthorisePayment
       include ModifyPayment
+      include Payout
 
       attr_reader :environment
 
@@ -26,6 +28,7 @@ module Adyen
       #   <tt>'live'</tt> or <tt>'test'</tt>.
       # @param username [String] The webservice username, e.g. <tt>ws@Company.Account</tt>
       # @param password [String] The password associated with the username
+      # @param default_api_params [Hash] Default arguments that will be used for every API call
       def initialize(environment, username, password)
         @environment, @username, @password = environment, username, password
       end
@@ -94,7 +97,7 @@ module Adyen
       # @see #http Use the <tt>http</tt> method to set options on the underlying
       #   <tt>Net::HTTP</tt> object, like timeouts.
       def execute_http_request(request)
-        http_request = Net::HTTP::Post.new(endpoint.path)
+        http_request = Net::HTTP::Post.new(request.path)
         http_request.basic_auth(@username, @password)
         http_request.set_form_data(request.form_data)
 
@@ -106,7 +109,7 @@ module Adyen
         when Net::HTTPUnauthorized
           raise Adyen::REST::Error.new("Webservice credentials are incorrect")
         else
-          raise Adyen::REST::Error.new("Unexpected HTTP response: #{response.code}")
+          raise Adyen::REST::Error.new("Unexpected HTTP response code: #{response.code} | response body: #{response.body}")
         end
       end
 
@@ -117,7 +120,7 @@ module Adyen
       end
 
       # @see Adyen::REST::Client#endpoint
-      ENDPOINT = 'https://pal-%s.adyen.com/pal/adapter/httppost'
+      ENDPOINT = 'https://pal-%s.adyen.com/'
       private_constant :ENDPOINT
     end
   end

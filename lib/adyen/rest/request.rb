@@ -29,17 +29,17 @@ module Adyen
     # @see Adyen::REST::Client
     # @see Adyen::REST::Response
     class Request
-      attr_reader :prefix, :form_data, :required_attributes
+      attr_reader :prefix, :form_data, :required_attributes, :path
       attr_accessor :response_class, :response_options
 
       def initialize(action, attributes, options = {})
-        @prefix = options[:prefix]
-        @form_data = generate_form_data(action, attributes)
+        @form_data = generate_form_data(attributes)
+        @path = generate_path(action)
 
         @response_class   = options[:response_class]   || Adyen::REST::Response
         @response_options = options[:response_options] || {}
 
-        @required_attributes = ['action']
+        @required_attributes = []
       end
 
       # Returns the request's action
@@ -55,12 +55,12 @@ module Adyen
 
       # Sets an attribute on the request
       def []=(attribute, value)
-        form_data.merge!(flatten_attributes(attribute => value))
+        form_data.merge!(Adyen::Util.flatten(attribute => value))
         value
       end
 
       def merchant_account=(value)
-        self[:merchant_account] = value
+        self[:merchantAccount] = value
       end
 
       # Runs validations on the request before it is sent.
@@ -84,28 +84,21 @@ module Adyen
       protected
 
       def canonical_name(name)
-        Adyen::Util.camelize(apply_prefix(name))
+        Adyen::Util.camelize(name)
       end
 
-      def apply_prefix(name)
-        prefix ? name.to_s.sub(/\A(?!#{Regexp.quote(prefix)}\.)/, "#{prefix}.") : name.to_s
-      end
-
-      # Flattens the {#attributes} hash and converts all the keys to camelcase.
-      # @return [Hash] A potentially nested hash of attributes.
       # @return [Hash<String, String>] A dictionary of API request attributes that
-      #   can be included in an HTTP request as form data.
-      def flatten_attributes(attributes)
-        if prefix
-          Adyen::Util.flatten(prefix => attributes)
-        else
-          Adyen::Util.flatten(attributes)
-        end
+      def generate_form_data(attributes)
+        Adyen::Util.flatten(attributes)
       end
 
-      def generate_form_data(action, attributes)
-        flatten_attributes(attributes).merge('action' => action.to_s)
+      def generate_path(action)
+        PATH % action.split('.')
       end
+
+      # @see Adyen::REST::Request#set_path
+      PATH = '/pal/servlet/%s/v12/%s'
+      private_constant :PATH
     end
   end
 end
