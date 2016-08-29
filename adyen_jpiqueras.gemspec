@@ -16,10 +16,11 @@ Gem::Specification.new do |s|
     The package provides functionality to create payment forms, handling and storing notifications
     sent by Adyen and consuming the SOAP services provided by Adyen. Moreover, it contains helper
     methods, mocks and matchers to simpify writing tests/specs for your code.
+    Fork version with payouts implemented.
   EOS
 
-  s.authors  = ['Willem van Bergen', 'Michel Barbosa', 'Stefan Borsje', 'Eloy Durán']
-  s.email    = ['willem@vanbergen.org', 'cicaboo@gmail.com', 'mail@sborsje.nl', 'eloy.de.enige@gmail.com']
+  s.authors  = ['Willem van Bergen', 'Michel Barbosa', 'Stefan Borsje', 'Eloy Durán', 'Jordi Piqueras']
+  s.email    = ['willem@vanbergen.org', 'cicaboo@gmail.com', 'mail@sborsje.nl', 'eloy.de.enige@gmail.com', 'jordi.piqueras@helpling.net']
   s.homepage = 'http://github.com/wvanbergen/adyen/wiki'
   s.license  = 'MIT'
 
