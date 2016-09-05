@@ -4,7 +4,7 @@
 /tmp
 /pkg
 /doc
-adyen-*.gem
+adyen_jpiqueras*.gem
 .yardoc
 *.swp
 *.swo
