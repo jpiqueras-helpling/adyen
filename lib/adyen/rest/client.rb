@@ -104,7 +104,7 @@ module Adyen
         case response = http.request(http_request)
         when Net::HTTPOK
           return response
-        when Net::HTTPInternalServerError
+        when Net::HTTPUnprocessableEntity, Net::HTTPInternalServerError
           raise Adyen::REST::ResponseError.new(response.body)
         when Net::HTTPUnauthorized
           raise Adyen::REST::Error.new("Webservice credentials are incorrect")
