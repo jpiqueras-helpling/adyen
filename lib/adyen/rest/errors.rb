@@ -11,22 +11,37 @@ module Adyen
 
     # Exception class for error responses from the Adyen API.
     #
-    # @!attribute category
+    # @!attribute status
     #    @return [String, nil]
-    # @!attribute code
+    # @!attribute error_code
     #    @return [Integer, nil]
-    # @!attribute description
+    # @!attribute message
+    #    @return [String, nil]
+    # @!attribute error_type
+    #    @return [String, nil]
+    # @!attribute psp_reference
     #    @return [String, nil]
     class ResponseError < Adyen::REST::Error
-      attr_accessor :category, :code, :description
+      attr_reader :status, :error_code, :message, :error_type, :psp_reference
 
       def initialize(response_body)
-        if match = /\A(\w+)\s(\d+)\s(.*)\z/.match(response_body)
-          @category, @code, @description = match[1], match[2].to_i, match[3]
-          super("API request error: #{description} (code: #{code}/#{category})")
+        parse_params(response_body)
+        if error_code && message && error_type
+          super("API request error: #{message} (code: #{error_type}/#{error_code})")
         else
           super("API request error: #{response_body}")
         end
+      end
+
+      private
+
+      def parse_params(response_body)
+        params = Hash[CGI.parse(response_body).map {|key,values| [key.to_sym, values[0] || true]}]
+        @status = params[:status]
+        @error_code = params[:errorCode]
+        @message = params[:message]
+        @error_type = params[:errorType]
+        @psp_reference = params[:pspReference] if params[:pspReference]
       end
     end
   end
