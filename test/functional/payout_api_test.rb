@@ -29,6 +29,10 @@ class PayoutAPITest < Minitest::Test
     assert response.psp_reference
   end
 
+  def test_submit_and_store_third_party_request
+    # TODO
+  end
+
   def test_store_request
     response = @client.store_payout(
       merchantAccount: 'VanBergenORG',
@@ -56,6 +60,10 @@ class PayoutAPITest < Minitest::Test
     assert response.received?
     assert response.psp_reference
   end
+
+  def test_submit_third_party_request
+    # TODO
+  end
 end
 
 class PayoutReviewTest < Minitest::Test
@@ -81,8 +89,28 @@ class PayoutReviewTest < Minitest::Test
     assert response.psp_reference
   end
 
+  def test_confirm_payout_third_party
+    response = @client.confirm_payout_third_party(
+      merchantAccount: 'VanBergenORG',
+      originalReference: '1234'
+    )
+
+    assert response.confirmed?
+    assert response.psp_reference
+  end
+
   def test_decline_payout
     response = @client.decline_payout(
+      merchantAccount: 'VanBergenORG',
+      originalReference: '1234'
+    )
+
+    assert response.declined?
+    assert response.psp_reference
+  end
+
+  def test_decline_payout_third_party
+    response = @client.decline_payout_third_party(
       merchantAccount: 'VanBergenORG',
       originalReference: '1234'
     )

@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   EOS
 
   s.authors  = ['Willem van Bergen', 'Michel Barbosa', 'Stefan Borsje', 'Eloy Durán', 'Jordi Piqueras']
-  s.email    = ['willem@vanbergen.org', 'cicaboo@gmail.com', 'mail@sborsje.nl', 'eloy.de.enige@gmail.com', 'jordi.piqueras@helpling.net']
+  s.email    = ['willem@vanbergen.org', 'cicaboo@gmail.com', 'mail@sborsje.nl', 'eloy.de.enige@gmail.com', 'jordi.piqueras@helpling.com']
   s.homepage = 'http://github.com/wvanbergen/adyen/wiki'
   s.license  = 'MIT'
 
