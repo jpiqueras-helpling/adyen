@@ -31,7 +31,26 @@ class PayoutAPITest < Minitest::Test
   end
 
   def test_submit_and_store_third_party_request
-    # TODO
+    response = @client.submit_and_store_payout_third_party(
+      merchantAccount: @merchant_account,
+      amount: { currency: 'EUR', value: 20},
+      bank: { iban: 'NL48RABO0132394782', bankName: 'Rabobank', countryCode: 'NL', ownerName: 'Test shopper' },
+      recurring: { contract: 'PAYOUT' },
+      reference: 'PayoutPayment-0001',
+      shopperEmail: 'shopper@example.com',
+      shopperReference: 'ShopperFoo',
+      entityType: 'NaturalPerson',
+      shoppername: {
+        firstname: 'John',
+        gender: 'MALE',
+        lastname: 'Doe',
+      },
+      nationality: 'NL',
+      dateOfBirth: '1980-01-01',
+    )
+
+    assert response.received?
+    assert response.psp_reference
   end
 
   def test_store_request
@@ -63,7 +82,26 @@ class PayoutAPITest < Minitest::Test
   end
 
   def test_submit_third_party_request
-    # TODO
+    response = @client.submit_payout_third_party(
+      merchantAccount: @merchant_account,
+      amount: { currency: 'EUR', value: 20 },
+      recurring: { contract: 'PAYOUT' },
+      reference: 'PayoutPayment-0001',
+      shopperEmail: 'shopper@example.com',
+      shopperReference: 'ShopperFoo',
+      selectedRecurringDetailReference: 'LATEST',
+      entityType: 'NaturalPerson',
+      shoppername: {
+        firstname: 'John',
+        gender: 'MALE',
+        lastname: 'Doe',
+      },
+      nationality: 'NL',
+      dateOfBirth: '1980-01-01',
+    )
+
+    assert response.received?
+    assert response.psp_reference
   end
 end
 
