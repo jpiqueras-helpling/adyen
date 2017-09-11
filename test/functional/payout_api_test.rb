@@ -8,6 +8,7 @@ class PayoutAPITest < Minitest::Test
       'storePayout@Company.VanBergen',
       'xxWWcc'
     )
+    @merchant_account = 'VanBergenORG'
   end
 
   def teardown
@@ -16,7 +17,7 @@ class PayoutAPITest < Minitest::Test
 
   def test_submit_and_store_request
     response = @client.submit_and_store_payout(
-      merchantAccount: 'VanBergenORG',
+      merchantAccount: @merchant_account,
       amount: { currency: 'EUR', value: 20},
       bank: { iban: 'NL48RABO0132394782', bankName: 'Rabobank', countryCode: 'NL', ownerName: 'Test shopper' },
       recurring: { contract: 'PAYOUT' },
@@ -35,7 +36,7 @@ class PayoutAPITest < Minitest::Test
 
   def test_store_request
     response = @client.store_payout(
-      merchantAccount: 'VanBergenORG',
+      merchantAccount: @merchant_account,
       bank: { iban: 'NL48RABO0132394782', bankName: 'Rabobank', countryCode: 'NL', ownerName: 'Test shopper' },
       recurring: { contract: 'PAYOUT' },
       shopperEmail: 'shopper@example.com',
@@ -48,7 +49,7 @@ class PayoutAPITest < Minitest::Test
 
   def test_submit_request
     response = @client.submit_payout(
-      merchantAccount: 'VanBergenORG',
+      merchantAccount: @merchant_account,
       amount: { currency: 'EUR', value: 20 },
       recurring: { contract: 'PAYOUT' },
       reference: 'PayoutPayment-0001',
@@ -81,7 +82,7 @@ class PayoutReviewTest < Minitest::Test
 
   def test_confirm_payout
     response = @client.confirm_payout(
-      merchantAccount: 'VanBergenORG',
+      merchantAccount: @merchant_account,
       originalReference: '1234'
     )
 
@@ -91,7 +92,7 @@ class PayoutReviewTest < Minitest::Test
 
   def test_confirm_payout_third_party
     response = @client.confirm_payout_third_party(
-      merchantAccount: 'VanBergenORG',
+      merchantAccount: @merchant_account,
       originalReference: '1234'
     )
 
@@ -101,7 +102,7 @@ class PayoutReviewTest < Minitest::Test
 
   def test_decline_payout
     response = @client.decline_payout(
-      merchantAccount: 'VanBergenORG',
+      merchantAccount: @merchant_account,
       originalReference: '1234'
     )
 
@@ -111,7 +112,7 @@ class PayoutReviewTest < Minitest::Test
 
   def test_decline_payout_third_party
     response = @client.decline_payout_third_party(
-      merchantAccount: 'VanBergenORG',
+      merchantAccount: @merchant_account,
       originalReference: '1234'
     )
 
