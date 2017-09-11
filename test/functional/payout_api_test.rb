@@ -74,6 +74,7 @@ class PayoutReviewTest < Minitest::Test
       'reviewPayout@Company.VanBergen',
       'ssWWcc'
     )
+    @merchant_account = 'VanBergenORG'
   end
 
   def teardown
