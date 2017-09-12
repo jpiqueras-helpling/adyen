@@ -109,7 +109,7 @@ module Adyen
         when Net::HTTPUnauthorized
           raise Adyen::REST::Error.new("Webservice credentials are incorrect")
         else
-          raise Adyen::REST::Error.new("Unexpected HTTP response code: #{response.code} | response body: #{response.body}")
+          raise Adyen::REST::Error.new("Unexpected HTTP response code: #{response.code} | request path: #{request.path} | response body: #{response.body}")
         end
       end
 
