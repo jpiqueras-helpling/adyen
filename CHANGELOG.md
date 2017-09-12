@@ -6,6 +6,18 @@ The following changes have been made to the library over the years. Pleae add an
 
 Nothing yet!
 
+#### Version 2.5.0
+
+- Add ThirdParty methods for Payout API
+
+#### Version 2.4.0
+
+- Fix error handling
+
+#### Version 2.3.0
+
+- Add Payouts API support
+
 #### Version 2.2.0
 
 - Add `Adyen::HPP` to integrate with Adyen's Hosted Payment Pages. `Adyen::HPP` supports the new HMAC-256 signing mechanism. `Adyen::Form` should be considered deprecated and will be removed from a future release.
