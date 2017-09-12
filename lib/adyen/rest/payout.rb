@@ -5,6 +5,11 @@ module Adyen
     # https://docs.adyen.com/developers/payout-manual
     module Payout
       class Request < Adyen::REST::Request
+        protected
+
+        def base_path
+          '/pal/servlet/%s/v25/%s'
+        end
       end
 
       class Response < Adyen::REST::Response
@@ -60,13 +65,33 @@ module Adyen
         execute_request(request)
       end
 
+      def submit_payout_third_party(attributes = {})
+        request = store_request('Payout.submitThirdParty', attributes)
+        execute_request(request)
+      end
+
+      def submit_and_store_payout_third_party(attributes = {})
+        request = store_request('Payout.storeDetailAndSubmitThirdParty', attributes)
+        execute_request(request)
+      end
+
       def confirm_payout(attributes = {})
         request = review_request('Payout.confirm', attributes)
         execute_request(request)
       end
 
+      def confirm_payout_third_party(attributes = {})
+        request = review_request('Payout.confirmThirdParty', attributes)
+        execute_request(request)
+      end
+
       def decline_payout(attributes = {})
         request = review_request('Payout.decline', attributes)
+        execute_request(request)
+      end
+
+      def decline_payout_third_party(attributes = {})
+        request = review_request('Payout.declineThirdParty', attributes)
         execute_request(request)
       end
 

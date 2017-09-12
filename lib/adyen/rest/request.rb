@@ -93,12 +93,12 @@ module Adyen
       end
 
       def generate_path(action)
-        PATH % action.split('.')
+        base_path % action.split('.')
       end
 
-      # @see Adyen::REST::Request#set_path
-      PATH = '/pal/servlet/%s/v12/%s'
-      private_constant :PATH
+      def base_path
+        '/pal/servlet/%s/v12/%s'
+      end
     end
   end
 end
